@@ -1,31 +1,44 @@
-# Happiness 
-
-#Importing libraries for data analysis
+# Importing libraries for data analysis
 import numpy as np
 import pandas as pd
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 
-#Importing libraries for visualization
+from sklearn.metrics import mean_squared_error
+from math import sqrt
+
+# Importing libraries for visualization
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-#Importing the datasets
-#2015
-dataset2015 = pd.read_csv('2015.csv')
-X2015 = dataset2015.iloc[:, 7:13].values
-y2015 = dataset2015.iloc[:, 3].values
+# Importing the dataset
+# 2016
+dataset2016 = pd.read_csv('dataset/2016.csv')
+X_2016 = dataset2016.iloc[:, :-1].values
+y_2016 = dataset2016.iloc[:, 8].values
 
-#2016
-dataset2016 = pd.read_csv('2016.csv')
-X2016 = dataset2016.iloc[:, 7:13].values
-y2016 = dataset2016.iloc[:, 3].values
+# Encoding categorical data
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+labelencoder = LabelEncoder()
+X_2016[:, 0] = labelencoder.fit_transform(X_2016[:, 0])
+onehotencoder = OneHotEncoder(categorical_features = [0])
+X_2016 = onehotencoder.fit_transform(X_2016).toarray()
 
-#2017
-dataset2017 = pd.read_csv('2017.csv')
-X2017 = dataset2017.iloc[:, 7:13].values
-y2017 = dataset2017.iloc[:, 3].values
+# Avoiding the Dummy Variable Trap
+X_2016 = X_2016[:, 1:]
 
-#Splitting the dataset into the Training set and Test set
-X2015_train, X2015_test, y2015_train, y2015_test = train_test_split(X2015, y2015, test_size = 0.2, random_state = 0)
-X2016_train, X2016_test, y2016_train, y2016_test = train_test_split(X2016, y2016, test_size = 0.2, random_state = 0)
-X2017_train, X2017_test, y2017_train, y2017_test = train_test_split(X2017, y2017, test_size = 0.2, random_state = 0)
+# Splitting the dataset into the Training set and Test set
+X_2016_train, X_2016_test, y_2016_train, y_2016_test = train_test_split(X_2016, y_2016, test_size = 0.2, random_state = 0)
+
+# MODEL 1: Making use of Multiple Linear Regression
+#Fitting Multiple Linear Regression to the Training set 
+from sklearn.linear_model import LinearRegression
+regressor = LinearRegression()
+regressor.fit(X_2016_train, y_2016_train)
+
+# Predicting the Test set results
+y_pred = regressor.predict(X_2016_test)
+
+
+# Building the optimal model using Backward Elimination
+import statsmodels.formula.api as sm
+X_2016 = np.append(arr = np.ones((155, 1)).astype(int), values = X_2016, axis = 1)
