@@ -8,7 +8,5 @@ The columns following the happiness score estimate the extent to which each of *
 ## Problem Statement
 Knowing from the sample dataset (2016) listing the happiness scores of representatives in each country and the factors that contribute to these scores, **how accurate can we predict the happiness scores of each country in 2017?**
 
-## Contributors
+## Attributions
 Dataset from [Kaggle](https://www.kaggle.com/unsdsn/world-happiness).
-
-Analysed by [Naazneen](https://github.com/ashfurrr), [Esther](https://github.com/estherlohhh), [Pamela](https://github.com/pamz23), and [Wan Ning](https://github.com/nigglett). ☃️🎉
